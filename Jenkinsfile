@@ -1,4 +1,5 @@
-podTemplate(label: 'mypod', containers: [
+def label = "mypod-${UUID.randomUUID().toString()}"
+podTemplate(label: label, containers: [
     containerTemplate(name: 'azure-cli', image: 'microsoft/azure-cli', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
@@ -19,10 +20,10 @@ podTemplate(label: 'mypod', containers: [
                     sh """
 
                         docker pull ubuntu
-                        docker tag ubuntu lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}
+                        docker tag ubuntu ${env.ACR_LOGINSERVER}/ubuntu:${env.BUILD_NUMBER}
                         """
                     sh "az acr login --name ${env.ACR_USER} -p ${env.ACR_PASSWORD}"
-                    sh "docker push lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER} "
+                    sh "docker push ${env.ACR_LOGINSERVER}/ubuntu:${env.BUILD_NUMBER} "
                 }
             }
         }
