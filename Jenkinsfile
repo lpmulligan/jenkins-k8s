@@ -27,7 +27,6 @@ podTemplate(label: 'label', containers: [
                 } //end withCredentials
             }
         } //end stage
-    }
 
         stage('do some kubectl work') {
             container('kubectl') {
