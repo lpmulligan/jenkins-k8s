@@ -31,6 +31,7 @@ podTemplate(
                             docker pull ubuntu
                             docker tag ubuntu lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}
                             """
+                        sh 'echo ${env.ACR_SERVER}'
                         sh "docker login lpmxmacr.azurecr.io -u ${env.ACR_USER} -p ${env.ACR_PASSWORD}"
                         sh "docker push lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}"
                     } // end withEnv
