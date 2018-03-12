@@ -2,7 +2,9 @@ def label = "mypod-${UUID.randomUUID().toString()}"
 podTemplate(
     label: 'label',
     containers: [
-        containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
+        containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat', envVars: [
+        envVar(key: 'ACR_LOGINSERVER', value: 'lpmxmacr.azurecr.io')
+    ] ),
         containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
     ],
@@ -21,11 +23,11 @@ podTemplate(
                         credentialsId: 'lpmxm-acr',
                         usernameVariable: 'ACR_USER',
                         passwordVariable: 'ACR_PASSWORD']]) {
-                    sh "echo ${env.ACR_LOGINSERVER}"
                     withEnv(["ACR_SERVER=${env.ACR_LOGINSERVER}"]) {
                         sh """
                             printenv
                             echo ${env.ACR_SERVER}
+                            echo ${env.ACR_LOGINSERVER}
                             docker pull ubuntu
                             docker tag ubuntu lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}
                             """
