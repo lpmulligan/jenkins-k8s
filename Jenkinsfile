@@ -24,8 +24,8 @@ podTemplate(
                     withEnv(["ACR_SERVER=${env.ACR_LOGINSERVER}"]) {
                         sh """
                             printenv
-                            echo ${env.ACR_LOGINSERVER}
-                            echo ${env.ACR_SERVER}
+                            echo env.ACR_LOGINSERVER
+                            echo env.ACR_SERVER
                             docker pull ubuntu
                             docker tag ubuntu ${env.ACR_SERVER}/ubuntu:${env.BUILD_NUMBER}
                             """
