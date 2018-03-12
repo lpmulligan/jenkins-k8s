@@ -23,9 +23,11 @@ podTemplate(
                         passwordVariable: 'ACR_PASSWORD']]) {
                     withEnv(["ACR_SERVER=${env.ACR_LOGINSERVER}"]) {
                         sh """
+                            printenv
                             docker pull ubuntu
                             docker tag ubuntu ${env.ACR_SERVER}/ubuntu:${env.BUILD_NUMBER}
                             """
+                        sh "printenv"
                         sh "docker login ${env.ACR_SERVER} -u ${env.ACR_USER} -p ${env.ACR_PASSWORD}"
                         sh "docker push ${env.ACR_SERVER}/ubuntu:${env.BUILD_NUMBER}"
                     } // end withEnv
