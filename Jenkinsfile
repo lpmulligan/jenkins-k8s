@@ -7,7 +7,7 @@ podTemplate(label: label, containers: [
   volumes: [
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
   ]) {
-    node('mypod') {
+    node('label') {
 
         stage('do some Docker work') {
             container('azure-cli') {
