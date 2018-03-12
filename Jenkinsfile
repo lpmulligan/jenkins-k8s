@@ -1,6 +1,6 @@
-def pod-label = "mypod-${UUID.randomUUID().toString()}"
+def label = "mypod-${UUID.randomUUID().toString()}"
 podTemplate(
-    label: 'pod-label',
+    label: 'label',
     containers: [
         containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
         containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
@@ -12,7 +12,7 @@ podTemplate(
     volumes: [
         hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
     ]) {
-    node('pod-label') {
+    node('label') {
 
         stage('Misc. Docker Work') {
             container('docker') {
