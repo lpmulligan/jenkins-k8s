@@ -1,6 +1,6 @@
-def label = "mypod-${UUID.randomUUID().toString()}"
+def pod-label = "mypod-${UUID.randomUUID().toString()}"
 podTemplate(
-    label: 'label',
+    label: 'pod-label',
     containers: [
         containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
         containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
@@ -12,21 +12,22 @@ podTemplate(
     volumes: [
         hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
     ]) {
-    node('label') {
+    node('pod-label') {
 
-        stage('do some Docker work') {
+        stage('Misc. Docker Work') {
             container('docker') {
 
                 withCredentials([[$class: 'UsernamePasswordMultiBinding',
                         credentialsId: 'lpmxm-acr',
                         usernameVariable: 'ACR_USER',
                         passwordVariable: 'ACR_PASSWORD']]) {
-                    sh "echo ${env.ACR_LOGINSERVER}"
+                    sh 'echo ${env.ACR_LOGINSERVER}'
+                    sh 'echo ${ACR_LOGINSERVER}'
                     withEnv(["ACR_SERVER=${env.ACR_LOGINSERVER}"]) {
                         sh """
                             printenv
-                            echo ${env.ACR_LOGINSERVER}
-                            echo ${ACR_SERVER}
+                            echo $ACR_LOGINSERVER
+                            echo ${env.ACR_SERVER}
                             docker pull ubuntu
                             docker tag ubuntu ${env.ACR_SERVER}/ubuntu:${env.BUILD_NUMBER}
                             """
