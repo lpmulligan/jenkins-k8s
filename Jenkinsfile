@@ -10,7 +10,7 @@ podTemplate(label: 'label', containers: [
     node('label') {
 
         stage('do some Docker work') {
-            container('azure-cli') {
+            container('azure-cli-docker') {
 
                 withCredentials([[$class: 'UsernamePasswordMultiBinding',
                         credentialsId: 'lpmxm-acr',
