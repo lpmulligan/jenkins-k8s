@@ -13,7 +13,7 @@ podTemplate(
         hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
     ]) {
     node('label') {
-        echo "${env.getEnvironment()}"
+
         stage('do some Docker work') {
             container('docker') {
 
@@ -24,8 +24,8 @@ podTemplate(
                     withEnv(["ACR_SERVER=${env.ACR_LOGINSERVER}"]) {
                         sh """
                             printenv
-                            echo ${env.ACR_LOGINSERVER}
-                            echo ${env.ACR_SERVER}
+                            echo ${ACR_LOGINSERVER}
+                            echo ${ACR_SERVER}
                             docker pull ubuntu
                             docker tag ubuntu ${env.ACR_SERVER}/ubuntu:${env.BUILD_NUMBER}
                             """
