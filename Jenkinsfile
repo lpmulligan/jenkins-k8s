@@ -22,7 +22,6 @@ podTemplate(
                         usernameVariable: 'ACR_USER',
                         passwordVariable: 'ACR_PASSWORD']]) {
                     sh 'echo ${env.ACR_LOGINSERVER}'
-                    sh 'echo ${ACR_LOGINSERVER}'
                     withEnv(["ACR_SERVER=${env.ACR_LOGINSERVER}"]) {
                         sh """
                             printenv
