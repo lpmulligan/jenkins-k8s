@@ -64,7 +64,8 @@ podTemplate(
                         """
                     sh 'echo $ACR_LOGINSERVER'
                     sh "echo ${env.ACR_LOGINSERVER}"
-                    sh "echo \\\"$$ACR_LOGINSERVER\\\""
+                    def cmd = $/echo \\\"$$ACR_LOGINSERVER\\\" \\\"$$BUILD_NUMBER\\\"/$
+                    sh cmd
                     sh "docker login ${env.ACR_LOGINSERVER} -u ${env.ACR_USER} -p ${env.ACR_PASSWORD}"
                     sh "docker push ${env.ACR_LOGINSERVER}/ubuntu:${env.BUILD_NUMBER}"
                 } //end withCredentials
