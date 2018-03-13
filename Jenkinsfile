@@ -26,11 +26,11 @@ podTemplate(
                     withEnv(['ACR_SERVER=${env.ACR_LOGINSERVER}']) {
                         sh """
                             printenv
-                            echo ${env.ACR_SERVER}
                             docker pull ubuntu
                             docker tag ubuntu lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}
                             """
                         sh 'echo $ACR_LOGINSERVER'
+                        sh 'echo ${ACR_SERVER}'
                         sh "docker login lpmxmacr.azurecr.io -u ${env.ACR_USER} -p ${env.ACR_PASSWORD}"
                         sh "docker push lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}"
                     } // end withEnv
