@@ -28,8 +28,7 @@ podTemplate(
                     def logincmd = $/echo docker login $$ACR_LOGINSERVER -u $$ACR_USER -p $$ACR_PASSWORD/$
                     def pushcmd = $/docker push $$ACR_LOGINSERVER/ubuntu:$$BUILD_NUMBER/$
 
-                    sh logincmd
-                    sh pushcmd
+                    sh logincmd && pushcmd
 
                 } //end withCredentials
             } //end container
