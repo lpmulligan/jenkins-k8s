@@ -50,24 +50,20 @@ podTemplate(
 
         stage('Misc. Docker Work') {
             container('docker') {
-                environment {
-                    ACR_LOGINSERVER = lpmxmacr.azurecr.io
-                }
                 withCredentials([[$class: 'UsernamePasswordMultiBinding',
                         credentialsId: 'lpmxm-acr',
                         usernameVariable: 'ACR_USER',
                         passwordVariable: 'ACR_PASSWORD']]) {
-                    sh """
-                        printenv
-                        docker pull ubuntu
-                        docker tag ubuntu lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}
-                        """
-                    sh 'echo $ACR_LOGINSERVER'
-                    sh "echo ${env.ACR_LOGINSERVER}"
-                    def cmd = $/echo $$ACR_LOGINSERVER \\\"$$BUILD_NUMBER\\\"/$
-                    sh cmd
-                    sh "docker login ${env.ACR_LOGINSERVER} -u ${env.ACR_USER} -p ${env.ACR_PASSWORD}"
-                    sh "docker push ${env.ACR_LOGINSERVER}/ubuntu:${env.BUILD_NUMBER}"
+                    sh "docker pull ubuntu"
+
+                    def tagcmd = $/docker tag $$ACR_LOGINSERVER/ubuntu:$$BUILD_NUMBER/$
+                    sh tagcmd
+
+                    def logincmd = $/echo docker login $$ACR_LOGINSERVER -u $$ACR.USER -p $$ACR_PASSWORD/$
+                    sh logincmd
+
+                    def pushcmd = $/docker push $$ACR_LOGINSERVER/ubuntu:$$BUILD_NUMBER/$
+                    sh pushcmd
                 } //end withCredentials
             } //end container
         } //end stage
