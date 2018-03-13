@@ -31,7 +31,7 @@ podTemplate(
                             """
                         sh 'echo $ACR_LOGINSERVER'
                         sh 'echo ${ACR_SERVER}'
-                        sh "docker login \"${ACR_LOGINSERVER}\" -u ${env.ACR_USER} -p ${env.ACR_PASSWORD}"
+                        sh "docker login \"${env.ACR_LOGINSERVER}\" -u ${env.ACR_USER} -p ${env.ACR_PASSWORD}"
                         sh "docker push lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}"
                     } // end withEnv
                 } //end withCredentials
