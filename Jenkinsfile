@@ -26,7 +26,7 @@ podTemplate(
                     withEnv(['ACR_SERVER=${env.ACR_LOGINSERVER}']) {
                         sh """
                             printenv
-                            echo ${ACR_SERVER}
+                            echo ${env.ACR_SERVER}
                             docker pull ubuntu
                             docker tag ubuntu lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}
                             """
