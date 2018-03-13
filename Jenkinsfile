@@ -23,9 +23,10 @@ podTemplate(
                         credentialsId: 'lpmxm-acr',
                         usernameVariable: 'ACR_USER',
                         passwordVariable: 'ACR_PASSWORD']]) {
-                    withEnv(["ACR_SERVER=${env.ACR_LOGINSERVER}"]) {
+                    withEnv(['ACR_SERVER=${env.ACR_LOGINSERVER}']) {
                         sh """
                             printenv
+                            echo ${ACR_SERVER}
                             docker pull ubuntu
                             docker tag ubuntu lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}
                             """
