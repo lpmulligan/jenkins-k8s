@@ -56,7 +56,7 @@ podTemplate(
                         passwordVariable: 'ACR_PASSWORD']]) {
                     sh "docker pull ubuntu"
 
-                    def tagcmd = $/docker tag $$ACR_LOGINSERVER/ubuntu:$$BUILD_NUMBER/$
+                    def tagcmd = $/docker tag ubuntu $$ACR_LOGINSERVER/ubuntu:$$BUILD_NUMBER/$
                     sh tagcmd
 
                     def logincmd = $/echo docker login $$ACR_LOGINSERVER -u $$ACR.USER -p $$ACR_PASSWORD/$
