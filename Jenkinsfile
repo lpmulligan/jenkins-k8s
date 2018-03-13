@@ -25,10 +25,10 @@ podTemplate(
                     def tagcmd = $/docker tag ubuntu $$ACR_LOGINSERVER/ubuntu:$$BUILD_NUMBER/$
                     sh tagcmd
 
-                    def logincmd = $/echo docker login $$ACR_LOGINSERVER -u $$ACR_USER -p $$ACR_PASSWORD/$
-                    def pushcmd = $/docker push $$ACR_LOGINSERVER/ubuntu:$$BUILD_NUMBER/$
-
+                    def logincmd = $/docker login $$ACR_LOGINSERVER -u $$ACR_USER -p $$ACR_PASSWORD/$
                     sh logincmd
+
+                    def pushcmd = $/docker push $$ACR_LOGINSERVER/ubuntu:$$BUILD_NUMBER/$
                     sh pushcmd
 
                 } //end withCredentials
