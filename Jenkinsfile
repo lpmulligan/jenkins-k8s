@@ -2,9 +2,7 @@ def label = "mypod-${UUID.randomUUID().toString()}"
 podTemplate(
     label: 'label',
     containers: [
-        containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat', envVars: [
-        envVar(key: 'ACR_LOGINSERVER', value: 'lpmxmacr.azurecr.io')
-    ] ),
+        containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
         containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
     ],
@@ -25,17 +23,15 @@ podTemplate(
                         credentialsId: 'lpmxm-acr',
                         usernameVariable: 'ACR_USER',
                         passwordVariable: 'ACR_PASSWORD']]) {
-                    withEnv(["ACR_SERVER=${env.ACR_LOGINSERVER}"]) {
-                        sh """
-                            printenv
-                            docker pull ubuntu
-                            docker tag ubuntu lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}
-                            """
-                        sh 'echo $ACR_LOGINSERVER'
-                        sh "echo ${env.ACR_SERVER}"
-                        sh "docker login ${env.ACR_SERVER} -u ${env.ACR_USER} -p ${env.ACR_PASSWORD}"
-                        sh "docker push ${env.ACR_SERVER}/ubuntu:${env.BUILD_NUMBER}"
-                    } // end withEnv
+                    sh """
+                        printenv
+                        docker pull ubuntu
+                        docker tag ubuntu lpmxmacr.azurecr.io/ubuntu:${env.BUILD_NUMBER}
+                        """
+                    sh 'echo $ACR_LOGINSERVER'
+                    sh "echo ${env.ACR_LOGINSERVER}"
+                    sh "docker login ${env.ACR_LOGINSERVER} -u ${env.ACR_USER} -p ${env.ACR_PASSWORD}"
+                    sh "docker push ${env.ACR_LOGINSERVER}/ubuntu:${env.BUILD_NUMBER}"
                 } //end withCredentials
             } //end container
         } //end stage
