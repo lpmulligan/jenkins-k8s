@@ -23,7 +23,7 @@ podTemplate(
                         credentialsId: 'lpmxm-acr',
                         usernameVariable: 'ACR_USER',
                         passwordVariable: 'ACR_PASSWORD']]) {
-                    withEnv(['ACR_SERVER=${env.ACR_LOGINSERVER}']) {
+                    withEnv(['ACR_SERVER=$ACR_LOGINSERVER']) {
                         sh """
                             printenv
                             docker pull ubuntu
