@@ -40,12 +40,5 @@ podTemplate(
                 } //end withCredentials
             } //end container
         } //end stage
-
-        stage('do some helm work') {
-            container('helm') {
-
-               sh "helm ls"
-            }
-        }
     }
 }
