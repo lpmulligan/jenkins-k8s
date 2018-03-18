@@ -28,7 +28,7 @@ podTemplate(
                     to get the environment variables from both the shell e.g. ACR_LOGINSERVER and
                     Jenkins e.g. BUILD_NUMBER
                     */
-                    def tagcmd = $/ls $$ACR_LOGINSERVER/ubuntu:$$BUILD_NUMBER/$
+                    def tagcmd = $/docker tag $$ACR_LOGINSERVER/ubuntu:$$BUILD_NUMBER/$
                     sh tagcmd
 
                     def logincmd = $/docker login $$ACR_LOGINSERVER -u $$ACR_USER -p $$ACR_PASSWORD/$
