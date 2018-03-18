@@ -41,18 +41,6 @@ podTemplate(
             } //end container
         } //end stage
 
-        stage('do some kubectl work') {
-            container('kubectl') {
-
-                withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                        credentialsId: 'devc3acr01-acr',
-                        usernameVariable: 'ACR_USER',
-                        passwordVariable: 'ACR_PASSWORD']]) {
-
-                    sh "kubectl get nodes"
-                }
-            }
-        }
         stage('do some helm work') {
             container('helm') {
 
